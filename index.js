@@ -6,3 +6,14 @@ app.use(express.json());
 app.use(express.urlencoded({
     extended: false
 }));
+
+db.sequelize.sync()
+    .then(() => {
+        app.listen(PORT, () => {
+            console.log(`Server started on port ${PORT}`);
+        })
+    })
+    .catch((err) => {
+        console.error('Failed to connect to the database:', err);
+        process.exitCode = 1;
+    })
