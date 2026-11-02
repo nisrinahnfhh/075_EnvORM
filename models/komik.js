@@ -5,5 +5,15 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey : true,
             autoIncrement: true
         },
-    })
+        tittle: {
+            type: DataTypes.STRING,
+        },
+        description: {
+            type: DataTypes.STRING,
+        },
+        author: {
+            type: DataTypes.STRING,
+        }
+    });
+    return Komik;
 }
