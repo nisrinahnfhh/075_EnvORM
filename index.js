@@ -1,4 +1,4 @@
-const express = require('express')
+const express = require('express');
 const app = express();
 const PORT = 3000;
 const db = require('./models');
@@ -7,13 +7,27 @@ app.use(express.urlencoded({
     extended: false
 }));
 
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
+
 db.sequelize.sync()
-    .then(() => {
-        app.listen(PORT, () => {
-            console.log(`Server started on port ${PORT}`);
-        })
+.then((result) => {
+    app.listen(PORT, () => {
+        console.log('Server started');
     })
-    .catch((err) => {
-        console.error('Failed to connect to the database:', err);
-        process.exitCode = 1;
-    })
+})
+.catch((err) => {
+    console.log(err);
+})
+
+app.post('/komik', async (req, res) => {
+    const data = req.body;
+
+    try {
+        const komik = await db.Komik.create(data);
+        res.send(komik);
+    } catch (err) {
+        res.send(err);
+    }
+});
